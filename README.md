@@ -1,36 +1,200 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎈 WindBorne Balloon Constellation Tracker
 
-## Getting Started
+An interactive real-time visualization of WindBorne Systems' weather balloon constellation, integrated with live weather data from Open-Meteo API.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38bdf8?style=flat-square&logo=tailwind-css)
+![Leaflet](https://img.shields.io/badge/Leaflet-Maps-green?style=flat-square&logo=leaflet)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌟 Features
+
+- **Real-time Balloon Tracking**: Visualizes 1,000+ weather balloons from WindBorne's global constellation
+- **24-Hour Historical Data**: Fetches and displays balloon positions across all 24 hourly datasets
+- **Live Weather Integration**: Integrates real-time weather data from Open-Meteo API for sample balloon locations
+- **Interactive Map**: Click on any balloon marker to view detailed position and weather information
+- **Color-coded Altitude**: Visual altitude representation with intuitive color gradients
+- **Responsive Design**: Beautiful glassmorphism UI that works on all devices
+- **Performance Optimized**: Client-side rendering with smart caching and async operations
+
+## 🚀 Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Mapping**: Leaflet.js with dark theme tiles from CARTO
+- **Data Sources**:
+  - [WindBorne Systems API](https://a.windbornesystems.com/treasure/) - Balloon position data
+  - [Open-Meteo API](https://open-meteo.com/) - Weather data (temperature, humidity, wind, pressure)
+
+## 📊 Data Integration
+
+### WindBorne Balloon API
+- **Endpoints**: 24 hourly datasets (`00.json` through `23.json`)
+- **Format**: Array of `[latitude, longitude, altitude]` coordinates
+- **Volume**: ~1,000 balloons per hour
+- **Updates**: Hourly
+
+### Open-Meteo Weather API
+- **Purpose**: Provides real-time weather conditions at balloon locations
+- **Data Points**: Temperature, humidity, precipitation, wind speed/direction, pressure
+- **Sample Size**: 30 random balloons per dataset (for performance)
+- **Caching**: Smart caching to minimize API calls
+
+## 🎨 Features Breakdown
+
+### Altitude Color Coding
+- 🔵 **Blue** (0-10 km): Lower atmosphere
+- 🟢 **Green** (10-15 km): Mid-troposphere
+- 🟠 **Orange** (15-20 km): Upper troposphere
+- 🔴 **Red** (20+ km): Stratosphere
+
+### Statistics Panel
+- Total balloon count
+- Average altitude
+- Altitude range (min/max)
+- Weather data points fetched
+- Last update timestamp
+
+## 🛠️ Installation
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/MonyVannn/windBorne-balloon-constellation-tracker.git
+   cd windBorne-balloon-constellation-tracker
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in browser**
+   ```
+   http://localhost:3000
+   ```
+
+## 📁 Project Structure
+
+```
+windborne-tracker/
+├── app/
+│   ├── api/
+│   │   └── balloons/
+│   │       └── route.ts          # API proxy to avoid CORS
+│   ├── page.tsx                  # Main application page
+│   ├── layout.tsx                # Root layout
+│   └── globals.css               # Global styles
+├── components/
+│   ├── MapComponent.tsx          # Leaflet map with balloon markers
+│   ├── StatsPanel.tsx            # Statistics display
+│   ├── Controls.tsx              # Refresh button
+│   ├── Legend.tsx                # Altitude color legend
+│   └── InfoPanel.tsx             # Project information
+├── types/
+│   └── index.ts                  # TypeScript interfaces
+├── public/                       # Static assets
+└── README.md                     # This file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 API Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### `/api/balloons`
+Server-side proxy to fetch balloon data from WindBorne API, bypassing CORS restrictions.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Parameters**:
+- `hours` (required): Hour offset (00-23)
 
-## Learn More
+**Example**:
+```
+GET /api/balloons?hours=00
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Response**: Array of balloon coordinates `[lat, lon, alt]`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌐 Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deploy to Vercel
 
-## Deploy on Vercel
+1. **Install Vercel CLI** (if not already installed)
+   ```bash
+   npm i -g vercel
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Deploy**
+   ```bash
+   vercel
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Follow prompts** to link/create project
+
+4. **Production deployment**
+   ```bash
+   vercel --prod
+   ```
+
+Your app will be live at: `https://your-project.vercel.app`
+
+## 🎯 Key Implementation Details
+
+### CORS Handling
+The WindBorne API doesn't support CORS for browser requests. This is solved using a Next.js API route (`/app/api/balloons/route.ts`) that acts as a server-side proxy.
+
+### Performance Optimization
+- **Dynamic Import**: Map component is loaded client-side only (no SSR)
+- **Weather Sampling**: Only fetches weather for 30 random balloons per dataset
+- **Weather Caching**: Caches weather data by rounded coordinates
+- **Race Condition Prevention**: Cleanup flags prevent stale async operations
+
+### Data Validation
+All balloon data is validated to ensure:
+- Valid array format with 3 elements
+- Latitude: -90 to 90
+- Longitude: -180 to 180
+- Altitude: 0 to 50 km (filters outliers)
+
+## 📝 Future Enhancements
+
+- [ ] Time-lapse animation of 24-hour balloon movement
+- [ ] Heatmap visualization mode
+- [ ] Advanced filtering (altitude ranges, geographic regions)
+- [ ] Balloon trajectory predictions
+- [ ] Historical data comparison
+- [ ] Export data to CSV/JSON
+
+## 🤝 Contributing
+
+This project was built as part of the WindBorne Systems Junior Web Developer coding challenge.
+
+## 📄 License
+
+MIT License - feel free to use this project for learning and inspiration!
+
+## 🙏 Acknowledgments
+
+- **WindBorne Systems** - For the balloon constellation API and the coding challenge
+- **Open-Meteo** - For the free weather API
+- **CARTO** - For the beautiful dark map tiles
+- **Leaflet.js** - For the amazing mapping library
+
+## 📧 Contact
+
+Built by **Mony Van**
+
+- GitHub: [@MonyVannn](https://github.com/MonyVannn)
+- Project: [windBorne-balloon-constellation-tracker](https://github.com/MonyVannn/windBorne-balloon-constellation-tracker)
+
+---
+
+**Note**: This application queries live data from WindBorne Systems' API. The balloon positions update hourly and represent real weather balloons flying around the globe! 🌍
