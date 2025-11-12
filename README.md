@@ -1,4 +1,4 @@
-# 🎈 WindBorne Balloon Constellation Tracker
+# WindBorne Balloon Constellation Tracker
 
 An interactive real-time visualization of WindBorne Systems' weather balloon constellation, integrated with live weather data from Open-Meteo API.
 
@@ -7,7 +7,7 @@ An interactive real-time visualization of WindBorne Systems' weather balloon con
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38bdf8?style=flat-square&logo=tailwind-css)
 ![Leaflet](https://img.shields.io/badge/Leaflet-Maps-green?style=flat-square&logo=leaflet)
 
-## 🌟 Features
+## Features
 
 - **Real-time Balloon Tracking**: Visualizes 1,000+ weather balloons from WindBorne's global constellation
 - **24-Hour Historical Data**: Fetches and displays balloon positions across all 24 hourly datasets
@@ -17,7 +17,7 @@ An interactive real-time visualization of WindBorne Systems' weather balloon con
 - **Responsive Design**: Beautiful glassmorphism UI that works on all devices
 - **Performance Optimized**: Client-side rendering with smart caching and async operations
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
 - **Language**: TypeScript
@@ -27,7 +27,7 @@ An interactive real-time visualization of WindBorne Systems' weather balloon con
   - [WindBorne Systems API](https://a.windbornesystems.com/treasure/) - Balloon position data
   - [Open-Meteo API](https://open-meteo.com/) - Weather data (temperature, humidity, wind, pressure)
 
-## 📊 Data Integration
+## Data Integration
 
 ### WindBorne Balloon API
 - **Endpoints**: 24 hourly datasets (`00.json` through `23.json`)
@@ -41,7 +41,7 @@ An interactive real-time visualization of WindBorne Systems' weather balloon con
 - **Sample Size**: 30 random balloons per dataset (for performance)
 - **Caching**: Smart caching to minimize API calls
 
-## 🎨 Features Breakdown
+## Features Breakdown
 
 ### Altitude Color Coding
 - 🔵 **Blue** (0-10 km): Lower atmosphere
@@ -56,7 +56,7 @@ An interactive real-time visualization of WindBorne Systems' weather balloon con
 - Weather data points fetched
 - Last update timestamp
 
-## 🛠️ Installation
+## Installation
 
 ### Prerequisites
 - Node.js 18+ 
@@ -85,7 +85,7 @@ An interactive real-time visualization of WindBorne Systems' weather balloon con
    http://localhost:3000
    ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 windborne-tracker/
@@ -108,7 +108,7 @@ windborne-tracker/
 └── README.md                     # This file
 ```
 
-## 🔧 API Routes
+## API Routes
 
 ### `/api/balloons`
 Server-side proxy to fetch balloon data from WindBorne API, bypassing CORS restrictions.
@@ -123,30 +123,7 @@ GET /api/balloons?hours=00
 
 **Response**: Array of balloon coordinates `[lat, lon, alt]`
 
-## 🌐 Deployment
-
-### Deploy to Vercel
-
-1. **Install Vercel CLI** (if not already installed)
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **Deploy**
-   ```bash
-   vercel
-   ```
-
-3. **Follow prompts** to link/create project
-
-4. **Production deployment**
-   ```bash
-   vercel --prod
-   ```
-
-Your app will be live at: `https://your-project.vercel.app`
-
-## 🎯 Key Implementation Details
+## Key Implementation Details
 
 ### CORS Handling
 The WindBorne API doesn't support CORS for browser requests. This is solved using a Next.js API route (`/app/api/balloons/route.ts`) that acts as a server-side proxy.
@@ -163,37 +140,6 @@ All balloon data is validated to ensure:
 - Latitude: -90 to 90
 - Longitude: -180 to 180
 - Altitude: 0 to 50 km (filters outliers)
-
-## 📝 Future Enhancements
-
-- [ ] Time-lapse animation of 24-hour balloon movement
-- [ ] Heatmap visualization mode
-- [ ] Advanced filtering (altitude ranges, geographic regions)
-- [ ] Balloon trajectory predictions
-- [ ] Historical data comparison
-- [ ] Export data to CSV/JSON
-
-## 🤝 Contributing
-
-This project was built as part of the WindBorne Systems Junior Web Developer coding challenge.
-
-## 📄 License
-
-MIT License - feel free to use this project for learning and inspiration!
-
-## 🙏 Acknowledgments
-
-- **WindBorne Systems** - For the balloon constellation API and the coding challenge
-- **Open-Meteo** - For the free weather API
-- **CARTO** - For the beautiful dark map tiles
-- **Leaflet.js** - For the amazing mapping library
-
-## 📧 Contact
-
-Built by **Mony Van**
-
-- GitHub: [@MonyVannn](https://github.com/MonyVannn)
-- Project: [windBorne-balloon-constellation-tracker](https://github.com/MonyVannn/windBorne-balloon-constellation-tracker)
 
 ---
 
